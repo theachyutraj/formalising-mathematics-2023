@@ -26,50 +26,73 @@ variables (P Q R S : Prop)
 
 example : P ↔ P :=
 begin
-  sorry
+  split,
+  intro p, exact p,
+  cc,
 end
 
 example : (P ↔ Q) → (Q ↔ P) :=
 begin
-  sorry
+  intro h,
+  split, exact h.2,
+  exact h.1,
 end
 
 example : (P ↔ Q) ↔ (Q ↔ P) :=
 begin
-  sorry
+  split,
+  intro h, split, exact h.2, exact h.1,
+  intro h, split, exact h.2, exact h.1,
 end
 
 example : (P ↔ Q) → (Q ↔ R) → (P ↔ R) :=
 begin
-  sorry
+  intros h j,
+  split, intro p, exact j.1 (h.1 p),
+  intro r, exact h.2 (j.2 r),
 end
 
 example : P ∧ Q ↔ Q ∧ P :=
 begin
-  sorry
+  split,
+  {intro h,
+  split,
+  exact h.2,
+  exact h.1},
+  {intro h,
+  split,
+  exact h.2, 
+  exact h.1},
 end
 
 example : ((P ∧ Q) ∧ R) ↔ (P ∧ (Q ∧ R)) :=
 begin
-  sorry
+  split,
+  intro h,
+  split,cc,cc,cc,
 end
 
 example : P ↔ (P ∧ true) :=
 begin
-  sorry
+  split,
+  intro p, split, exact p,triv,
+  intro h, exact h.1,
 end
 
 example : false ↔ (P ∧ false) :=
 begin
-  sorry
+  split,
+  intro f,
+  split,
+  exfalso,
+  exact f, exact f,
+  intro h,
+  exact h.2,
 end
 
-example : (P ↔ Q) → (R ↔ S) → (P ∧ R ↔ Q ∧ S) :=
-begin
-  sorry
-end
+example : (P ↔ Q) → (R ↔ S) → (P ∧ R ↔ Q ∧ S) := by cc
 
 example : ¬ (P ↔ ¬ P) :=
 begin
-  sorry,
+  rw ← imp_false, intro h, rw ← imp_false at h, cc,
 end

@@ -98,7 +98,8 @@ using `intro`, `exact` and `apply`.
 /-- Every proposition implies itself. -/
 example : P → P :=
 begin
-  sorry
+  intro h,
+  exact h,
 end
 
 /-
@@ -118,28 +119,33 @@ So the next level is asking you prove that `P → (Q → P)`.
 -/
 example : P → Q → P :=
 begin
-  sorry
+  intros h q,
+  exact h,
 end
 
 /-- If we know `P`, and we also know `P → Q`, we can deduce `Q`. 
 This is called "Modus Ponens" by logicians. -/
 example : P → (P → Q) → Q :=
 begin
-  sorry
+  intros p f,
+  exact f(p),
 end
 
 /-- `→` is transitive. That is, if `P → Q` and `Q → R` are true, then
   so is `P → R`. -/
 example : (P → Q) → (Q → R) → (P → R) :=
 begin
-  sorry,
+  intros h j p,
+  exact j(h(p)),
 end
 
 -- If `h : P → Q → R` with goal `⊢ R` and you `apply h`, you'll get
 -- two goals! Note that tactics operate on only the first goal.
 example : (P → Q → R) → (P → Q) → (P → R) :=
 begin
-  sorry
+  intros hpqr hpq p,
+  apply hpqr, exact p,
+  apply hpq, exact p,
 end
 
 /- 
@@ -156,27 +162,34 @@ variables (S T : Prop)
 
 example : (P → R) → (S → Q) → (R → T) → (Q → R) → S → T :=
 begin
-  sorry
+  intros hpr hsq hrt hqr s,
+  exact hrt(hqr(hsq(s))),
 end
 
 example : (P → Q) → ((P → Q) → P) → Q :=
 begin
-  sorry
+  intros hpq f, apply hpq, apply f,exact hpq,
 end
 
 example : ((P → Q) → R) → ((Q → R) → P) → ((R → P) → Q) → P :=
 begin
-  sorry
+  intros hpqr hqrp hrpq,
+  apply hqrp,intro q,
+  apply hpqr, intro p,
+  exact q,
 end
 
 example : ((Q → P) → P) → (Q → R) → (R → P) → P :=
 begin
-  sorry
+  intros hqpp hqr hrp,
+  --apply hrp ∘ hqr,
+  apply hqpp, intro q, exact hrp(hqr(q)),
 end
 
 example : (((P → Q) → Q) → Q) → (P → Q) :=
 begin
-  sorry
+  intros hpqq p, apply hpqq,
+  intro hpq, exact hpq(p),
 end
 
 example :
@@ -184,5 +197,7 @@ example :
   ((((P → P) → Q) → (P → P → Q)) → R) →
   (((P → P → Q) → ((P → P) → Q)) → R) → R :=
 begin
-  sorry
+  intros h j k, 
+  -- apply h, intros hpqq hpq, apply hpq,
+  apply j, intros hppq p _, apply hppq, intro _, exact p,
 end

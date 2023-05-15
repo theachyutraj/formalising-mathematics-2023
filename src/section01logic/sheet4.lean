@@ -26,51 +26,61 @@ and also the following tactics:
 
 variables (P Q R : Prop)
 
-example : P ∧ Q → P :=
-begin
-  sorry
-end
+example : P ∧ Q → P := λ h, h.1
+-- begin
+--   sorry
+-- end
 
-example : P ∧ Q → Q :=
-begin
-  sorry
-end
+example : P ∧ Q → Q := λ h, h.2
+-- begin
+--   intro h, exact h.2,
+-- end
 
-example : (P → Q → R) → (P ∧ Q → R) :=
+example : (P → Q → R) → (P ∧ Q → R) := 
 begin
-  sorry
+  intros h j, 
+  apply h, exact j.1, exact j.2,
 end
 
 example : P → Q → P ∧ Q :=
 begin
-  sorry
+  intros p q,
+  split,
+  exact p, exact q,
 end
 
 /-- `∧` is symmetric -/
 example : P ∧ Q → Q ∧ P :=
 begin
-  sorry
+  intro h, split, exact h.2, exact h.1,
 end
 
 example : P → P ∧ true :=
 begin
-  sorry
+  intro p, split, exact p, triv,
 end
 
 example : false → P ∧ false :=
 begin
-  sorry
+  intro f, split, exfalso, exact f, exact f,
 end
 
 /-- `∧` is transitive -/
 example : (P ∧ Q) → (Q ∧ R) → (P ∧ R) :=
 begin
-  sorry,
+  intros h j,
+  split,
+  exact h.1,
+  exact j.2,
 end
 
 example : ((P ∧ Q) → R) → (P → Q → R) :=
 begin
-  sorry,
+  intros h p q,
+  apply h,
+  split,
+  exact p, 
+  exact q,
 end
 
 

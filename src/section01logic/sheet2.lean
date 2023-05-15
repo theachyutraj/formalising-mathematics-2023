@@ -28,52 +28,45 @@ if you can understand what's going on.
 
 variables (P Q R : Prop)
 
-example : true :=
-begin
-  sorry
-end
+example : true := by triv
 
-example : true → true :=
-begin
-  sorry
-end
+example : true → true := by cc
 
 example : false → true :=
 begin
-  sorry
+  intro f,
+  exfalso,
+  exact f,
 end
 
-example : false → false :=
-begin
-  sorry
-end
+example : false → false := by cc
 
 example : (true → false) → false :=
 begin
-  sorry
+  intro h, apply h, triv,
 end
 
 example : false → P :=
 begin
-  sorry
+  intro f, exfalso, exact f,
 end
 
 example : true → false → true → false → true → false :=
 begin
-  sorry
+  intros h j, exfalso, exact j,
 end
 
 example : P → ((P → false) → false) :=
 begin
-  sorry
+  intros p h, exact h p,
 end
 
 example : (P → false) → P → Q :=
 begin
-  sorry
+  intros h p, exfalso, exact h p,
 end
 
 example : (true → false) → P :=
 begin
-  sorry
+  rw imp_false, rw not_true, intro f, exfalso, exact f,
 end
