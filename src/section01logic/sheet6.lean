@@ -28,53 +28,60 @@ variables (P Q R S : Prop)
 
 example : P → P ∨ Q :=
 begin
-  sorry
+  intro p, left, exact p,
 end
 
 example : Q → P ∨ Q :=
 begin
-  sorry,
+  intro q, right, exact q,
 end
 
 example : P ∨ Q → (P → R) → (Q → R) → R :=
 begin
-  sorry
+  intros h j k,
+  cases h with p q,
+  exact j p,
+  exact k q,
 end
 
 -- symmetry of `or`
 example : P ∨ Q → Q ∨ P :=
 begin
-  sorry
+  intro h,
+  cases h with p q,
+  right, exact p,
+  left, exact q,
 end
 
 -- associativity of `or`
-example : (P ∨ Q) ∨ R ↔ P ∨ (Q ∨ R) :=
-begin
-  sorry,
-end
+example : (P ∨ Q) ∨ R ↔ P ∨ (Q ∨ R) := by cc
 
 example : (P → R) → (Q → S) → P ∨ Q → R ∨ S :=
 begin
-  sorry,
+  intros h j k,
+  cases k with p q,
+  left, exact h p,
+  right, exact j q,
 end
 
 example : (P → Q) → P ∨ R → Q ∨ R :=
 begin
-  sorry,
+  intros h j,
+  cases j with p r,
+  left, exact h p,
+  right, exact r,
 end
 
-example : (P ↔ R) → (Q ↔ S) → (P ∨ Q ↔ R ∨ S) :=
-begin
-  sorry,
-end
+example : (P ↔ R) → (Q ↔ S) → (P ∨ Q ↔ R ∨ S) := by cc
 
 -- de Morgan's laws
-example : ¬ (P ∨ Q) ↔ ¬ P ∧ ¬ Q :=
-begin
-  sorry
-end
+example : ¬ (P ∨ Q) ↔ ¬ P ∧ ¬ Q :=  ⟨ λ h, ⟨ λ p, h (or.intro_left _ p), λ q, h (or.intro_right _ q)⟩, λ h pq, or.elim pq h.1 h.2 ⟩ 
 
 example : ¬ (P ∧ Q) ↔ ¬ P ∨ ¬ Q :=
 begin
+  split,
+  repeat {rw ← imp_false},
+  intro h,
+  
   sorry
 end
