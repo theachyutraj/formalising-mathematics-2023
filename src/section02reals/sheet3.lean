@@ -63,8 +63,7 @@ for the definition, i.e. prove some basic theorems about it.
 theorem tends_to_def {a : ℕ → ℝ} {t : ℝ} :
   tends_to a t ↔ ∀ ε, 0 < ε → ∃ B : ℕ, ∀ n, B ≤ n → |a n - t| < ε :=
 begin
-  -- true by definition
-  refl
+  refl,
 end
 
 -- the eagle-eyed viewers amongst you might have spotted
@@ -84,13 +83,19 @@ but it can't do anything with it if it's a variable.
 /-- The limit of the constant sequence with value 37 is 37. -/
 theorem tends_to_thirtyseven : tends_to (λ n, 37) 37 :=
 begin
-  sorry,
+  intros ε h_eps,
+  norm_num,
+  use 1,intros n h,
+  exact h_eps,
 end
 
 /-- The limit of the constant sequence with value `c` is `c`. -/
 theorem tends_to_const (c : ℝ) : tends_to (λ n, c) c :=
 begin
-  sorry,
+  intros ε h_eps,
+  norm_num,
+  use 1, intros n h,
+  exact h_eps,
 end
 
 /-- If `a(n)` tends to `t` then `a(n) + c` tends to `t + c` -/
@@ -98,6 +103,11 @@ theorem tends_to_add_const {a : ℕ → ℝ} {t : ℝ} (c : ℝ)
   (h : tends_to a t) :
   tends_to (λ n, a n + c) (t + c) :=
 begin
+  intros ε _,
+  norm_num,
+  -- cases,
+  use 1,
+  -- specialize,
   sorry,
   -- hints: make sure you know the maths proof!
   -- use `cases` to deconstruct an `exists`

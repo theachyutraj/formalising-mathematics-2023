@@ -12,7 +12,13 @@ import solutions.section02reals.sheet3 -- import the definition of `tends_to` fr
 theorem tends_to_neg {a : ℕ → ℝ} {t : ℝ} (ha : tends_to a t) :
   tends_to (λ n, - a n) (-t) :=
 begin
-  sorry,
+  intros ε hε,
+  cases ha ε hε with B hB,
+  use B,
+  intros n hBn,
+  rw ← abs_neg,
+  norm_num,
+  exact hB n hBn,
 end
 
 /-

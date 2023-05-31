@@ -54,26 +54,14 @@ end
 -- with the name of the axiom it found. Note also that you can instead *guess*
 -- the names of the axioms. For example what do you think the proof of `1 * a = a` is called?
 
-example (a b c : G) : (a * b) * c = a * (b * c) :=
-begin
-  sorry
-end
+example (a b c : G) : (a * b) * c = a * (b * c) := mul_assoc a b c
 
-example (a : G) : a * 1 = a :=
-begin
-  sorry
-end
+example (a : G) : a * 1 = a := mul_one a
 
 -- Can you guess the last two?
-example (a : G) : 1 * a = a :=
-begin
-  sorry
-end
+example (a : G) : 1 * a = a := one_mul a
 
-example (a : G) : a * a⁻¹ = 1 :=
-begin
-  sorry
-end
+example (a : G) : a * a⁻¹ = 1 := mul_inv_self a
 
 -- As well as the axioms, Lean has many other standard facts which are true
 -- in all groups. See if you can prove these from the axioms, or find them
@@ -83,20 +71,16 @@ end
 variables (a b c : G)
 
 
-example : a⁻¹ * (a * b) = b :=
-begin
-  sorry
-end
+example : a⁻¹ * (a * b) = b := inv_mul_cancel_left a b
 
-example : a * (a⁻¹ * b) = b :=
-begin
-  sorry
-end
+example : a * (a⁻¹ * b) = b := mul_inv_cancel_left a b
 
 example {a b c : G} (h1 : b * a = 1) (h2 : a * c = 1) : b = c :=
 begin
   -- hint for this one if you're doing it from first principles: `b * (a * c) = (b * a) * c`
-  sorry,
+  -- rw [ ← mul_one b, ← mul_one c],
+  exact left_inv_eq_right_inv h1 h2,
+  -- sorry,
 end
 
 -- If you do this one from first principles you'll perhaps need the previous result,
@@ -104,23 +88,20 @@ end
 -- first principles.
 example : a * b = 1 ↔ a⁻¹ = b :=
 begin
-  sorry,
+  split,
+  intro h1,
+  have x:= inv_mul_self a,
+  exact mul_eq_one_iff_inv_eq.mp h1,
+  exact mul_eq_one_iff_inv_eq.mpr,
+  -- exact left_inv_eq_right_inv h1 x,
+  -- sorry,
 end
 
-example : (1 : G)⁻¹ = 1 :=
-begin
-  sorry,
-end
+example : (1 : G)⁻¹ = 1 := inv_one
 
-example : (a⁻¹)⁻¹ = a :=
-begin
-  sorry,
-end
+example : (a⁻¹)⁻¹ = a := inv_inv a
 
-example : (a * b)⁻¹ = b⁻¹ * a⁻¹ := 
-begin
-  sorry,
-end
+example : (a * b)⁻¹ = b⁻¹ * a⁻¹ := mul_inv_rev a b
 
 /-
 
@@ -137,11 +118,15 @@ educated guessing).
 
 example : (b⁻¹ * a⁻¹)⁻¹ * 1⁻¹⁻¹ * b⁻¹ * (a⁻¹ * a⁻¹⁻¹⁻¹) * a = 1 :=
 begin
-  group,
+  repeat {rw inv_inv},
+  rw [mul_one, mul_assoc, inv_mul_self a],
+  -- group,
 end
 
 -- Try this trickier problem: if g^2=1 for all g in G, then G is abelian
 example (h : ∀ g : G, g * g = 1) : ∀ g h : G, g * h = h * g :=
 begin
+  intros g h,
+  
   sorry
 end
