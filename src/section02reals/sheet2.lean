@@ -49,6 +49,8 @@ end
 example : ∀ (x : ℝ), ∃ y, x + y ≠ 2 :=
 begin
   intros x,
-  
-  sorry,
+  use -x,
+  ring_nf,
+  -- simp,
+  linarith,
 end

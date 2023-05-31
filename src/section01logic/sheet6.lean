@@ -80,8 +80,13 @@ example : ¬ (P ∨ Q) ↔ ¬ P ∧ ¬ Q :=  ⟨ λ h, ⟨ λ p, h (or.intro_lef
 example : ¬ (P ∧ Q) ↔ ¬ P ∨ ¬ Q :=
 begin
   split,
+  {
   repeat {rw ← imp_false},
   intro h,
-  
+  apply and.elim_left _ _ h,
+  },
+  {
+    sorry
+  },
   sorry
 end

@@ -50,7 +50,7 @@ variables (X Y Z : Type)
 theorem injective_def (f : X → Y) : 
   injective f ↔ ∀ (a b : X), f a = f b → a = b :=
 begin
-  refl -- this proof works, because `injective f` 
+  refl, -- this proof works, because `injective f` 
        -- means ∀ a b, f a = f b → a = b *by definition*
        -- so the proof is "it's reflexivity of `↔`"
 end
@@ -59,14 +59,14 @@ end
 theorem surjective_def (f : X → Y) : 
   surjective f ↔ ∀ b : Y, ∃ a : X, f a = b :=
 begin
-  refl
+  refl,
 end
 
 -- similarly the *definition* of `id x` is `x`
 theorem id_eval (x : X) :
   id x = x :=
 begin
-  refl
+  refl,
 end
 
 -- Function composition is `∘` in Lean (find out how to type it by putting your cursor on it). 
@@ -74,7 +74,7 @@ end
 theorem comp_eval (f : X → Y) (g : Y → Z) (x : X) :
   (g ∘ f) x = g (f x) :=
 begin
-  refl
+  refl,
 end
 
 -- Why did we just prove all those theorems with a proof
@@ -86,12 +86,18 @@ begin
   -- you can start with `rw injective_def` if you like,
   -- and later you can `rw id_eval`, although remember that `rw` doesn't
   -- work under binders like `∀`, so use `intro` first.
-  sorry
+  rw injective_def,
+  intros a b,
+  repeat {rw id_eval},
+  exact λ h, h,
 end
 
 example : surjective (id : X → X) :=
 begin
-  sorry
+  rw surjective_def,
+  intros b,
+  use b,
+  refl,
 end
 
 -- Theorem: if f : X → Y and g : Y → Z are injective,
@@ -147,12 +153,23 @@ end
 example (f : X → Y) (g : Y → Z) : 
   injective (g ∘ f) → injective f :=
 begin
-  sorry
+  intro h,
+  rw injective_def at *,
+  -- have y := f x,
+  intros a b hab,
+  apply h a b,
+  repeat {rw comp_eval},
+  rwa hab,
 end
 
 -- This is another one
 example (f : X → Y) (g : Y → Z) : 
   surjective (g ∘ f) → surjective g :=
 begin
-  sorry
+  -- intro h,
+  -- rw surjective_def at *,
+  intros h z,
+  cases h z with x hgfx,
+  use f x,
+  exact hgfx,
 end

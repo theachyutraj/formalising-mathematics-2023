@@ -51,43 +51,19 @@ see if you can start beginning to guess what various lemmas should be called.
 
 -/
 
-example (x : ℝ) : |(-x)| = |x| :=
-begin
-  sorry
-end
+example (x : ℝ) : |(-x)| = |x| := abs_neg x
 
-example (x y : ℝ) : |x - y| = |y - x| :=
-begin
-  sorry
-end 
+example (x y : ℝ) : |x - y| = |y - x| := abs_sub_comm x y
 
-example (A B C : ℕ) : max A B ≤ C ↔ A ≤ C ∧ B ≤ C :=
-begin
-  sorry
-end
+example (A B C : ℕ) : max A B ≤ C ↔ A ≤ C ∧ B ≤ C := max_le_iff
 
-example (x y : ℝ) : |x| < y ↔ -y < x ∧ x < y :=
-begin
-  sorry
-end
+example (x y : ℝ) : |x| < y ↔ -y < x ∧ x < y := abs_lt
 
-example (ε : ℝ) (hε : 0 < ε) : 0 < ε / 2 :=
-begin
-  sorry,
-end
+example (ε : ℝ) (hε : 0 < ε) : 0 < ε / 2 := half_pos hε
 
-example (a b x y : ℝ) (h1 : a < x) (h2 : b < y) : a + b < x + y :=
-begin
-  sorry,
-end
+example (a b x y : ℝ) (h1 : a < x) (h2 : b < y) : a + b < x + y := add_lt_add h1 h2
 
-example (ε : ℝ) (hε : 0 < ε) : 0 < ε / 3 :=
-begin
-  sorry,
-end
+example (ε : ℝ) (hε : 0 < ε) : 0 < ε / 3 := by linarith
 
 example (a b c d x y : ℝ) (h1 : a + c < x) (h2 : b + d < y) :
-  a + b + c + d < x + y :=
-begin
-  sorry
-end
+  a + b + c + d < x + y := by linarith
